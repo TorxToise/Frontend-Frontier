@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Election Results - Delhi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
+    <link rel="stylesheet" href="style.css">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        };
+    </script>
+</head>
+<body class="bg-gray-100 p-6 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+
+    <header class="bg-blue-500 text-white py-4 shadow-lg fixed w-full top-0 z-50 dark:bg-blue-700">
+        <div class="container mx-auto flex justify-between items-center px-4">
+            <div class="flex items-center space-x-3">
+                <img src="logo.svg" alt="ECI Logo" class="h-10">
+                <h1 class="text-2xl font-bold">Election Commission of India</h1>
+            </div>
+            <nav class="flex space-x-6 items-center">
+                <a href="index.html" class="nav-link">Home</a>
+                <button id="darkModeToggle" class="p-2 bg-gray-700 text-white rounded-full shadow-lg dark:bg-gray-300 dark:text-black">🌜</button>
+                <a href="login.html" class="px-4 py-2 bg-yellow-400 text-black font-bold rounded-lg shadow-lg hover:bg-yellow-500">Login/Signup</a>
+            </nav>
+        </div>
+    </header>
+    
+
+    <div class="flex justify-between items-center">
+        <h1 class="text-3xl font-bold text-center flex-grow">Delhi Election Results</h1>
+        <button id="theme-toggle" class="p-2 bg-gray-300 dark:bg-gray-700 rounded-lg">🌙</button>
+    </div>
+    
+    <!-- Live Seat Count -->
+    <div class="flex justify-center space-x-6 mt-6">
+        <div class="p-4 bg-blue-500 text-white text-center rounded-lg shadow-lg w-40">
+            <h2 class="text-lg font-semibold">BJP</h2>
+            <p class="text-2xl font-bold">48</p>
+        </div>
+        <div class="p-4 bg-green-500 text-white text-center rounded-lg shadow-lg w-40">
+            <h2 class="text-lg font-semibold">AAP</h2>
+            <p class="text-2xl font-bold">22</p>
+        </div>
+    </div>
+    
+    <!-- Interactive Map -->
+    <div class="mt-6">
+        <h2 class="text-xl font-semibold text-center">Election Map</h2>
+        <div id="map" class="h-96 w-full rounded-lg shadow-lg"></div>
+    </div>
+
+    <!-- Charts -->
+    <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
+            <canvas id="pieChart"></canvas>
+        </div>
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
+            <canvas id="barChart"></canvas>
+        </div>
+    </div>
+    
+    <!-- Table -->
+    <div class="mt-6 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
+        <h2 class="text-xl font-semibold mb-4">Seat-wise Results</h2>
+        <table class="w-full border-collapse border border-gray-300 dark:border-gray-700">
+            <thead>
+                <tr class="bg-gray-200 dark:bg-gray-700">
+                    <th class="border p-2">Seat</th>
+                    <th class="border p-2">Winner</th>
+                    <th class="border p-2">Party</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="border p-2">New Delhi</td>
+                    <td class="border p-2">Candidate A</td>
+                    <td class="border p-2 text-blue-500">BJP</td>
+                </tr>
+                <tr>
+                    <td class="border p-2">Chandni Chowk</td>
+                    <td class="border p-2">Candidate B</td>
+                    <td class="border p-2 text-green-500">AAP</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+ // Dark Mode Toggle
+ const darkModeToggle = document.getElementById("darkModeToggle");
+        if (darkModeToggle) {
+            darkModeToggle.addEventListener("click", () => {
+                document.documentElement.classList.toggle("dark");
+                localStorage.setItem("theme", document.documentElement.classList.contains("dark") ? "dark" : "light");
+            });
+        }
+        
+        // Set theme from local storage
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark');
+        }
+
+        // Initialize Map
+        var map = L.map('map').setView([28.6139, 77.2090], 11);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+        
+        // Mock Data: BJP and AAP regions
+        var bjpRegions = [[28.7, 77.1], [28.6, 77.2]];
+        var aapRegions = [[28.5, 77.0], [28.4, 77.3]];
+        
+        bjpRegions.forEach(coords => L.circle(coords, {color: 'blue', fillColor: 'blue', fillOpacity: 0.5, radius: 3000}).addTo(map));
+        aapRegions.forEach(coords => L.circle(coords, {color: 'green', fillColor: 'green', fillOpacity: 0.5, radius: 3000}).addTo(map));
+        
+        // Pie Chart
+        new Chart(document.getElementById('pieChart').getContext('2d'), {
+            type: 'pie',
+            data: {
+                labels: ['BJP', 'AAP'],
+                datasets: [{
+                    data: [48, 22],
+                    backgroundColor: ['blue', 'green']
+                }]
+            }
+        });
+        
+        // Bar Chart
+        new Chart(document.getElementById('barChart').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: ['BJP', 'AAP'],
+                datasets: [{
+                    label: 'Seats Won',
+                    data: [48, 22],
+                    backgroundColor: ['blue', 'green']
+                }]
+            }
+        });
+    </script>
+</body>
+</html>

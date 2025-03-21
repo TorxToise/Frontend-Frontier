@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="logo.svg">
+    <title>Voters' Services Portal - Election Commission of India</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        };
+    </script>
+</head>
+<body class="bg-gray-100 text-gray-900 dark:bg-gray-950 dark:text-gray-100">
+    
+    <header class="bg-blue-500 text-white py-4 shadow-lg fixed w-full top-0 z-50 dark:bg-blue-700">
+        <div class="container mx-auto flex justify-between items-center px-4">
+            <div class="flex items-center space-x-3">
+                <img src="logo.svg" alt="ECI Logo" class="h-10">
+                <h1 class="text-2xl font-bold">Election Commission of India</h1>
+            </div>
+            <nav class="flex space-x-6 items-center">
+                <a href="#home" class="nav-link">Home</a>
+                <a href="#contact-us" class="nav-link">Contact Us</a>
+                <button id="darkModeToggle" class="p-2 bg-gray-700 text-white rounded-full shadow-lg dark:bg-gray-300 dark:text-black">🌜</button>
+                <a href="login.html" class="px-4 py-2 bg-yellow-400 text-black font-bold rounded-lg shadow-lg hover:bg-yellow-500">Login/Signup</a>
+            </nav>
+        </div>
+    </header>
+    
+    <main class="pt-20 px-4 text-center">
+        <section id="home" class="py-32 relative flex flex-col justify-center items-center text-center bg-cover bg-center" style="background: url('bg.avif') center/cover no-repeat;">
+            <div class="bg-black bg-opacity-50 p-8 rounded-lg dark:bg-gray-900 dark:bg-opacity-80">
+                <h2 id="empowerText" class="text-5xl font-bold text-yellow-400 drop-shadow-lg">Empowering Democracy</h2>
+                <p class="text-xl text-white mt-2 font-semibold">Your Vote, Your Future.</p>
+            </div>
+        </section>
+    </main>
+    
+    <section class="py-16 bg-gray-200 dark:bg-gray-800 grid grid-cols-1 md:grid-cols-2 gap-6 px-4 container mx-auto">
+        <div class="p-6 bg-blue-400 text-white rounded-lg shadow-lg cursor-pointer hover:scale-105 transition-transform dark:bg-blue-600" onclick="">
+            <h3 class="text-3xl font-bold">Elections</h3>
+            <p class="mt-2">Get details about upcoming elections and schedules.</p>
+        </div>
+        <div class="p-6 bg-green-500 text-white rounded-lg shadow-lg cursor-pointer hover:scale-105 transition-transform dark:bg-green-700" onclick="location.href='results.html'">
+            <h3 class="text-3xl font-bold">Election Results</h3>
+            <p class="mt-2">Stay updated with real-time election results.</p>
+        </div>
+    </section>
+    
+    <section class="py-16 bg-gray-300 dark:bg-gray-700 text-center">
+        <h3 class="text-3xl font-semibold mb-6">Quick Links</h3>
+        <div class="flex justify-center space-x-4">
+            <a href="#forms" class="quick-link">Forms</a>
+            <a href="#services" class="quick-link">Services</a>
+            <a href="#mobile-apps" class="quick-link">Mobile Apps</a>
+        </div>
+    </section>
+    
+    <section id="contact-us" class="py-16 bg-gray-400 dark:bg-gray-800 text-center">
+        <h3 class="text-3xl font-semibold mb-6">Contact Us</h3>
+        <p>Get in touch with the Election Commission for any queries.</p>
+    </section>
+    
+    <footer class="bg-gray-500 dark:bg-gray-900 text-white py-6 text-center">
+        <p>&copy; 2025 Election Commission of India. All rights reserved.</p>
+    </footer>
+    
+    <script>
+        // Dark Mode Toggle
+        const darkModeToggle = document.getElementById("darkModeToggle");
+        if (darkModeToggle) {
+            darkModeToggle.addEventListener("click", () => {
+                document.documentElement.classList.toggle("dark");
+                localStorage.setItem("theme", document.documentElement.classList.contains("dark") ? "dark" : "light");
+            });
+        }
+
+        // GSAP Animations
+        gsap.from("#empowerText", { duration: 1.5, opacity: 0, y: -50, ease: "power3.out" });
+        gsap.utils.toArray(".nav-link").forEach(link => {
+            gsap.from(link, { opacity: 0, y: -10, duration: 0.5, ease: "power3.out", stagger: 0.2 });
+            link.addEventListener("mouseenter", () => {
+                gsap.to(link, { scale: 1.1, duration: 0.2, ease: "power3.out" });
+            });
+            link.addEventListener("mouseleave", () => {
+                gsap.to(link, { scale: 1, duration: 0.2, ease: "power3.out" });
+            });
+        });
+
+        gsap.utils.toArray(".quick-link").forEach(link => {
+            link.addEventListener("mouseenter", () => {
+                gsap.to(link, { scale: 1.05, duration: 0.3, ease: "bounce.out" });
+            });
+            link.addEventListener("mouseleave", () => {
+                gsap.to(link, { scale: 1, duration: 0.3, ease: "bounce.out" });
+            });
+        });
+        
+        // Preserve theme preference
+        if (localStorage.getItem("theme") === "dark") {
+            document.documentElement.classList.add("dark");
+        }
+    </script>
+</body>
+</html>

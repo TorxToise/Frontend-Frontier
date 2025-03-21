@@ -1,0 +1,117 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Header */
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    flex-wrap: wrap;
+  }
+  
+  nav {
+    display: flex;
+    gap: 15px;
+  }
+  
+  /* Hide Menu on Mobile */
+  #menu {
+    display: none;
+  }
+  
+  /* Show Menu when Toggled */
+  #menu.active {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background: #ffffff;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    padding: 10px;
+  }
+  
+  /* Buttons */
+  button {
+    cursor: pointer;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    /* Stack elements vertically */
+    .main {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    /* Navbar */
+    nav {
+      display: none;
+      flex-direction: column;
+      text-align: center;
+    }
+  
+    .nav-link {
+      padding: 10px;
+      width: 100%;
+      display: block;
+    }
+  
+    /* Show menu when toggled */
+    .show-menu {
+      display: flex;
+    }
+  
+    /* Adjust charts */
+    .chart-container {
+      width: 100%;
+    }
+  
+    /* Adjust table */
+    table {
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+  
+    /* Adjust election results section */
+    .live-results {
+      flex-direction: column;
+      gap: 10px;
+    }
+  
+    .result-box {
+      width: 100%;
+      text-align: center;
+    }
+  
+    /* Map */
+    #map {
+      height: 300px;
+      width: 100%;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    /* Smaller screens adjustments */
+    h1 {
+      font-size: 1.5rem;
+    }
+  
+    .button {
+      padding: 6px 12px;
+    }
+  
+    /* Adjust header */
+    header {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+  
